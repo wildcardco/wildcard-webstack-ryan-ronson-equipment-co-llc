@@ -4,19 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: "var(--color-brand)",
-        ink: "var(--color-ink)",
-        muted: "var(--color-muted)",
-        paper: "var(--color-bg)",
-        surface: "var(--color-surface)",
-        header: "var(--color-header)",
-        line: "var(--color-line)",
+        brand: "#DA2343",
+        ink: "#333333",
+        muted: "#555555",
+        paper: "#F2F2F2",
+        surface: "#FFFFFF",
+        header: "#3D3D3D",
+        coal: "#111111",
+        line: "#D9D9D9",
       },
       fontFamily: {
-        sans: ["var(--font-sans)"],
+        sans: ["Open Sans", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+        display: ["Montserrat", "Arial Narrow", "Arial", "sans-serif"],
       },
       maxWidth: {
-        page: "72rem",
+        page: "90rem",
       },
     },
   },

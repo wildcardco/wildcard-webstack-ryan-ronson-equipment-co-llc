@@ -3,33 +3,160 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #f3f0ec;
+  --color-bg: #f2f2f2;
   --color-surface: #ffffff;
-  --color-ink: #1a1a1a;
-  --color-muted: #5e584f;
+  --color-ink: #333333;
+  --color-muted: #555555;
   --color-brand: #da2343;
   --color-header: #3d3d3d;
-  --color-line: #ddd6cc;
-  --color-focus: #0b57d0;
-  --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --page-pad: 1rem;
-  --header-h: 4.25rem;
+  --color-coal: #111111;
+  --color-line: #d9d9d9;
+  --font-sans: "Open Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Montserrat", "Arial Narrow", Arial, sans-serif;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  background: var(--color-bg);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
+@layer base {
+  body {
+    margin: 0;
+    min-width: 320px;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  ::selection {
+    background: #da2343;
+    color: #fff;
+  }
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-focus);
+  outline: 3px solid #fff;
   outline-offset: 2px;
+  box-shadow: 0 0 0 5px #da2343;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+@layer components {
+  .btn {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.05rem;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .btn-brand {
+    background: #da2343;
+    color: #fff;
+  }
+
+  .btn-brand:hover {
+    background: #111;
+    color: #fff;
+  }
+
+  .btn-coal {
+    background: #111;
+    color: #fff;
+  }
+
+  .btn-coal:hover {
+    background: #da2343;
+    color: #fff;
+  }
+
+  .btn-line {
+    border: 2px solid currentColor;
+    background: transparent;
+    color: inherit;
+  }
+
+  .btn-line:hover {
+    background: #da2343;
+    border-color: #da2343;
+    color: #fff;
+  }
+
+  .btn-line-light:hover {
+    background: #fff;
+    border-color: #fff;
+    color: #111;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
+    text-transform: uppercase;
+  }
+
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 90rem;
+    padding-inline: 1rem;
+  }
+
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    border: 2px solid #111;
+    background: #fff;
+    padding: 0.6rem 0.75rem;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    color: #111;
+  }
+}
+
+/* Signature motion: content tracks in from the left as it enters the viewport. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal]:not(.is-in) {
+    opacity: 0;
+    transform: translate3d(-2.25rem, 0, 0);
+  }
+}
+
+[data-reveal] {
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.16, 0.84, 0.32, 1);
+}
+
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

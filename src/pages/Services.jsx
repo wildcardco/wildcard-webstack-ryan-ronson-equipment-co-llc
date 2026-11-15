@@ -1,3 +1,4 @@
+import { PageIntro } from "../components/PageIntro.jsx";
 import { usePageTitle } from "./usePageTitle.js";
 
 const links = [
@@ -28,21 +29,30 @@ export function Services() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">Service, parts, and rentals</h1>
-      <p className="mt-3 max-w-3xl leading-relaxed">
-        Ronson’s about page says the company covers northwest Indiana, northeast Illinois, and
-        southwest Michigan with service trucks, parts, hydraulic hose work, attachments, and a
-        rental fleet. The service page lists counties in Indiana, Michigan, and Illinois and marks
-        some of them as only partly in the service area. This page links to those surfaces instead
-        of copying every county.
-      </p>
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        {links.map((item) => (
-          <article key={item.href} className="border border-line bg-surface p-4">
-            <h2 className="text-xl font-bold">{item.title}</h2>
-            <p className="mt-2 text-sm leading-relaxed">{item.text}</p>
-            <a href={item.href} className="mt-3 inline-flex min-h-11 items-center font-semibold underline" rel="noreferrer" target="_blank">
+      <PageIntro eyebrow="Shop and field" title="Service, parts, and rentals">
+        <p>
+          Ronson’s about page says the company covers northwest Indiana, northeast Illinois, and southwest
+          Michigan with service trucks, parts, hydraulic hose work, attachments, and a rental fleet. The service
+          page lists counties in Indiana, Michigan, and Illinois and marks some of them as only partly in the
+          service area. This page links to those surfaces instead of copying every county.
+        </p>
+      </PageIntro>
+      <div className="wrap grid gap-8 py-12 md:grid-cols-2 md:pt-16">
+        {links.map((item, index) => (
+          <article
+            key={item.href}
+            data-reveal
+            style={{ transitionDelay: `${index * 80}ms` }}
+            className={`relative bg-white p-6 pt-8 shadow-[10px_10px_0_#3d3d3d] ${index % 2 === 1 ? "md:mt-12" : "md:-mt-6"}`}
+          >
+            <span className="absolute -top-4 left-5 bg-brand px-2 font-display text-2xl font-extrabold text-white" aria-hidden="true">
+              0{index + 1}
+            </span>
+            <h2 className="font-display text-2xl font-extrabold uppercase">{item.title}</h2>
+            <p className="mt-3 text-sm leading-relaxed">{item.text}</p>
+            <a href={item.href} className="btn btn-coal mt-5" rel="noreferrer" target="_blank">
               Open on ronsonequipment.com
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </article>
         ))}

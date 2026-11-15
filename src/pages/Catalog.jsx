@@ -1,7 +1,15 @@
 import { Link, useParams } from "react-router-dom";
+import { PageIntro } from "../components/PageIntro.jsx";
 import { ProductCard } from "../components/ProductCard.jsx";
 import { categories, getCategory, getProductsByCategory } from "../data/catalog.js";
 import { usePageTitle } from "./usePageTitle.js";
+
+function chipClass(active) {
+  return [
+    "inline-flex min-h-11 items-center border px-3 font-display text-[0.75rem] font-bold uppercase tracking-[0.12em]",
+    active ? "border-brand bg-brand text-white" : "border-white/40 text-white hover:bg-white/10",
+  ].join(" ");
+}
 
 export function Catalog() {
   const { category: categorySlug } = useParams();
@@ -12,58 +20,63 @@ export function Catalog() {
 
   return (
     <div>
-      <p className="text-sm font-semibold uppercase tracking-wide text-brand">Sample catalog</p>
-      <h1 className="mt-2 text-3xl font-bold">{category ? category.name : "Equipment sample"}</h1>
-      <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
-        Three machines only. Category labels follow the listing records. The dealer’s full
-        inventory stays on the source site.
-      </p>
-      <div className="mt-5 flex flex-wrap gap-2" aria-label="Categories">
-        <Link
-          to="/catalog"
-          className={`inline-flex min-h-11 items-center border px-3 text-sm font-semibold ${
-            !categorySlug ? "border-ink bg-ink text-white" : "border-line bg-surface"
-          }`}
-        >
-          All
-        </Link>
-        {categories.map((item) => (
-          <Link
-            key={item.slug}
-            to={`/catalog/${item.slug}`}
-            className={`inline-flex min-h-11 items-center border px-3 text-sm font-semibold ${
-              item.slug === categorySlug ? "border-ink bg-ink text-white" : "border-line bg-surface"
-            }`}
-          >
-            {item.name}
-          </Link>
-        ))}
-      </div>
-      {unknown ? (
-        <p className="mt-8 border border-line bg-surface p-4">
-          This sample does not include that category.{" "}
-          <Link to="/catalog" className="font-semibold underline">
-            Back to the catalog
-          </Link>
-          .
+      <PageIntro eyebrow="Sample catalog" title={category ? category.name : unknown ? "Not in this sample" : "Equipment sample"}>
+        <p>
+          {category
+            ? category.summary
+            : "Three machines only. Category labels follow the listing records. The dealer’s full inventory stays on the source site."}
         </p>
-      ) : (
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {visible.map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <nav className="flex flex-wrap gap-2" aria-label="Categories">
+          <Link to="/catalog" className={chipClass(!categorySlug)} aria-current={!categorySlug ? "page" : undefined}>
+            All
+          </Link>
+          {categories.map((item) => (
+            <Link
+              key={item.slug}
+              to={`/catalog/${item.slug}`}
+              className={chipClass(item.slug === categorySlug)}
+              aria-current={item.slug === categorySlug ? "page" : undefined}
+            >
+              {item.name}
+            </Link>
           ))}
-        </div>
-      )}
-      <p className="mt-8 text-sm">
-        <a
-          href="https://ronsonequipment.com/inventory/"
-          className="font-semibold underline"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Open the full inventory on ronsonequipment.com
-        </a>
-      </p>
+        </nav>
+      </PageIntro>
+      <div className="wrap py-12">
+        {unknown ? (
+          <p className="bg-white p-5 shadow-[8px_8px_0_#3d3d3d]">
+            This sample does not include that category.{" "}
+            <Link to="/catalog" className="font-semibold underline decoration-ink/30 underline-offset-4 hover:decoration-brand">
+              Back to the catalog
+            </Link>
+            .
+          </p>
+        ) : (
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:items-start">
+            {visible.map((product, index) => (
+              <div
+                key={product.id}
+                data-reveal
+                style={{ transitionDelay: `${index * 80}ms` }}
+                className={index === 1 ? "xl:-mt-6" : ""}
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
+        <p className="mt-10 text-sm">
+          <a
+            href="https://ronsonequipment.com/inventory/"
+            className="font-semibold underline decoration-ink/30 underline-offset-4 hover:decoration-brand"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Open the full inventory on ronsonequipment.com
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
